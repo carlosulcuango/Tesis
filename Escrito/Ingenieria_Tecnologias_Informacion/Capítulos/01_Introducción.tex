@@ -1,0 +1,138 @@
+\chapter{Introducción}
+\label{chap:introduccion}
+
+\section{Contextualización}
+\textit{[Describir el entorno donde se identifica la necesidad del proyecto, indicando el sector, área de aplicación y situación actual. Incluir información relevante de la entidad receptora o del contexto donde se implementará la solución.]}
+
+
+\section{Estado del Arte}
+\label{sec:estado_del_arte}
+
+El aseguramiento de la continuidad operativa y el rendimiento de las infraestructuras de telecomunicaciones ha experimentado una evolución paradigmática durante la última década. Tradicionalmente, la administración de redes se sustentó en esquemas de supervisión reactiva basados en sondeos síncronos periódicos mediante el protocolo simple de administración de red (\textit{Simple Network Management Protocol} -- SNMP) y pruebas básicas de alcanzabilidad ICMP (\textit{Ping}). No obstante, la creciente heterogeneidad y densidad de tráfico en las redes corporativas y académicas contemporáneas ha evidenciado la insuficiencia del monitoreo clásico para anticipar fallas complejas. En respuesta, la industria y la academia han convergido hacia el paradigma de la \textbf{observabilidad de red}, el cual no se limita a constatar si un dispositivo o interfaz se encuentra activo, sino que permite inferir el estado interno de la infraestructura a partir del análisis y correlación cruzada de sus salidas telemétricas: métricas cuantitativas de salud, flujos de tráfico y registros estructurados de eventos \cite{clemm2020service}.
+
+A nivel normativo y arquitectónico, el Grupo de Investigación en Gestión de Redes (\textit{NMRG}) del Grupo de Trabajo de Ingeniería de Internet (\textit{IETF}) formalizó en la norma RFC 9232 el \textit{Network Telemetry Framework} \cite{song2022network}. Dicho estándar establece una taxonomía por capas para la telemetría en redes de datos, clasificándola según los planos de gestión, control y reenvío (\textit{data plane}). Song et al. \cite{song2022network} argumentan que las arquitecturas modernas deben trascender el modelo de extracción por sondeo periódico (\textit{pull-based}) hacia esquemas híbridos y de transmisión continua (\textit{streaming telemetry}), permitiendo que los sistemas de análisis consuman telemetría en tiempo real sin comprometer el plano de control de los equipos monitoreados.
+
+\subsection{Revisión de Trabajos Académicos e Industriales}
+
+En el ámbito del análisis de tráfico y caracterización de conversaciones de red, Hofstede et al. \cite{hofstede2014flow} presentaron en \textit{IEEE Communications Surveys \& Tutorials} un estudio seminal sobre la cadena completa del monitoreo basado en flujos (\textit{flow monitoring}), analizando en detalle los protocolos NetFlow e IPFIX (\textit{IP Flow Information Export}, normalizado en la RFC 7011 \cite{claise2013ipfix}). Los autores demuestran que, frente a la captura completa de paquetes (\textit{Packet Capture} -- PCAP), la agregación estadística en flujos unidireccionales identificados por la quintupla clásica (dirección IP origen/destino, puerto transporte origen/destino y protocolo) reduce el volumen de almacenamiento en varios órdenes de magnitud y minimiza la sobrecarga de procesamiento, posibilitando la auditoría de aplicaciones y la detección de anomalías a velocidad de línea. Asimismo, destacan que el análisis de metadatos de flujo preserva la privacidad de los usuarios al prescindir de la inspección del contenido de las cargas útiles (\textit{payload}), un aspecto crucial para el cumplimiento de normativas de protección de datos, como la Ley Orgánica de Protección de Datos Personales (LOPDP) en el contexto ecuatoriano. Como contraparte, Hofstede et al. identifican como principal desafío la sensibilidad de la exactitud analítica ante la parametrización de las ventanas temporales de exportación (\textit{active} e \textit{inactive timeouts}) y los factores de muestreo (\textit{packet sampling}).
+
+En consonancia con la clasificación de tráfico a nivel de aplicación, Deri et al. \cite{deri2014ndpi} introdujeron la biblioteca de inspección profunda de código abierto nDPI, integrada en el motor de análisis ntopng. Esta aproximación permite complementar la telemetría de flujos IPFIX mediante la decodificación precisa de protocolos de capa 7 (HTTP/S, DNS, protocolos multimedia y colaborativos) sin depender de puertos fijos o conocidos, resolviendo la opacidad generada por el tráfico dinámico o cifrado en entornos universitarios heterogéneos y ofreciendo una alternativa abierta frente a costosos dispositivos de hardware propietario (\textit{appliances}).
+
+En el contexto específico de las infraestructuras de red de campus universitarios, Espinel-Villalobos et al. \cite{espinel2022design} desarrollaron e implementaron en la Universidad Nacional de Colombia un sistema de monitoreo diseñado para mitigar las restricciones de latencia y saturación del plano de control provocadas por el sondeo masivo de variables MIB mediante SNMP. La propuesta de los autores se basó en una arquitectura distribuida por capas gobernada por agentes de software especializados (agentes recolectores, consolidadores y de presentación en mapas de calor). Su investigación demostró que el desacoplamiento entre los procesos de ingesta y la capa de visualización reduce la degradación de CPU en los conmutadores institucionales y optimiza los tiempos de respuesta ante fallas. No obstante, dicho trabajo se centró primordialmente en métricas de disponibilidad y rendimiento de equipos, excluyendo la visibilidad de flujos de tráfico y el análisis de registros del sistema.
+
+En el contexto ecuatoriano, Obregón Maroto \cite{obregon2022implementacion} documentó en la Escuela Politécnica Nacional (EPN) la sustitución de herramientas de monitoreo comerciales por un prototipo sustentado en tecnologías de software libre, empleando Prometheus para la recolección de métricas numéricas y Grafana como panel centralizado de visualización. Dicha implementación evidenció la viabilidad técnica y el sustancial ahorro presupuestario que representa la adopción de plataformas abiertas en la educación superior pública. Sin embargo, su alcance quedó acotado al sondeo de métricas mediante el exportador SNMP de Prometheus, sin incorporar telemetría de flujos IPFIX ni una capa de centralización de registros Syslog, limitando la capacidad de correlación y análisis de causa raíz ante incidentes complejos.
+
+Por su parte, el valor diagnóstico de los registros del sistema ha sido exhaustivamente investigado por He et al. \cite{he2016experience} y Vaarandi y Pihelgas \cite{vaarandi2015logcluster}. He et al. evaluaron metodologías de análisis de logs para la detección de fallas en sistemas de gran escala, concluyendo que los registros secuenciales estructurados emitidos bajo la norma RFC 5424 \cite{gerhards2009syslog} capturan información causal que las series temporales de métricas no logran reflejar, como fluctuaciones de enlaces físicos (\textit{link flapping}), errores de negociación de interfaz o intentos reiterados de autenticación anómala. Vaarandi y Pihelgas diseñaron algoritmos de agrupamiento (\textit{clustering}) en tiempo real sobre eventos Syslog, demostrando que la correlación de patrones textuales permite aislar la causa raíz de incidentes de red con alta precisión, siempre que se cuente con un repositorio centralizado que evite la pérdida de registros volátiles ocasionada por reinicios intempestivos o desbordamiento de búferes locales en los conmutadores.
+
+En lo concerniente a la evaluación y comparación de plataformas de observabilidad de código abierto, Matos et al. \cite{matos2020dependability} llevaron a cabo un estudio cuantitativo de rendimiento y confiabilidad entre soluciones como Zabbix, Nagios y Prometheus. Sus hallazgos indican que, si bien Prometheus destaca en entornos dinámicos de microservicios y contenedores por su alta tasa de ingesta de muestras numéricas, Zabbix presenta una superioridad operativa notable en infraestructuras de red físicas y heterogéneas. Zabbix sobresale por su soporte nativo y maduro del protocolo SNMPv3 con cifrado criptográfico USM (\textit{User-based Security Model}, RFC 3414 \cite{blumenthal2002user}), su mecanismo de descubrimiento dinámico de interfaces de bajo nivel (\textit{Low-Level Discovery} -- LLD) y su capacidad nativa para definir árboles de dependencias jerárquicas entre equipos. Como señalan Clemm et al. \cite{clemm2020service}, la definición de árboles de dependencia topológica es indispensable para mitigar la denominada ``fatiga de alertas'' (\textit{alert fatigue}), asegurando que la caída de un nodo central suprima automáticamente las alertas redundantes de los dispositivos aguas abajo.
+
+\subsection{Comparación Sistemática de Soluciones del Estado del Arte}
+
+Con la finalidad de sintetizar las contribuciones de la literatura científica y técnica analizada, la Tabla~\ref{tab:estado_arte} presenta un cuadro comparativo que resume las tecnologías empleadas, ventajas, limitaciones y su aporte directo a la formulación del presente proyecto.
+
+\begin{table}[htbp]
+  \centering
+  \footnotesize
+  \caption{Comparación de soluciones y trabajos del estado del arte en monitoreo de redes.}
+  \label{tab:estado_arte}
+  \renewcommand{\arraystretch}{1.1}
+  \setlength{\tabcolsep}{2.5pt}
+  \begin{tabular}{|p{2.1cm}|p{2.3cm}|p{2.8cm}|p{2.8cm}|p{2.8cm}|}
+    \hline
+    \textbf{Trabajo / Referencia} & \textbf{Enfoque y Protocolos} & \textbf{Ventajas Principales} & \textbf{Limitaciones} & \textbf{Aporte al Proyecto UTI} \\
+    \hline
+    Hofstede et al. (2014) \cite{hofstede2014flow} & Monitoreo de flujos NetFlow e IPFIX (RFC 7011 \cite{claise2013ipfix}). & Caracterización de tráfico y top talkers sin inspeccionar payload; alta escalabilidad. & Sensible a timeouts y muestreo; no monitorea salud de hardware. & Fundamenta el diseño del módulo colector de flujos IPFIX y cumplimiento de la LOPDP. \\
+    \hline
+    Song et al. / IETF (2022) \cite{song2022network} & \textit{Network Telemetry Framework} (RFC 9232). & Taxonomía formal del ciclo telemétrico en planos de datos, control y gestión. & Marco conceptual de alto nivel sin implementación de software específica. & Guía la arquitectura lógica desacoplada por microservicios en la plataforma UTI. \\
+    \hline
+    Espinel-Villalobos et al. (2022) \cite{espinel2022design} & Agentes de software y MIBs SNMP en campus. & Desacopla recolección y reduce latencia en conmutadores; mapas de calor. & Requiere agentes propios; no integra flujos de tráfico ni eventos Syslog. & Demuestra la necesidad de desacoplar la ingesta SNMP del motor de visualización. \\
+    \hline
+    Deri et al. (2014) \cite{deri2014ndpi} & Inspección profunda L4/L7 con nDPI / ntopng. & Clasificación precisa de protocolos de capa de aplicación sin licencias de pago. & Demanda mayor memoria RAM a muy altas tasas de paquetes. & Justifica la incorporación de ntopng como sonda analítica de flujos de red. \\
+    \hline
+    He et al. (2016) \cite{he2016experience}; Vaarandi y Pihelgas (2015) \cite{vaarandi2015logcluster} & Minería y gestión de registros Syslog (RFC 5424 \cite{gerhards2009syslog}). & Diagnóstico de causa raíz (RCA) y detección de fallas no reflejadas en métricas. & Alto volumen de datos; requiere reglas de normalización y rotación periódica. & Fundamenta la inclusión del concentrador Syslog RFC 5424 para auditoría de eventos. \\
+    \hline
+    Matos et al. (2022) \cite{matos2020dependability} & Evaluación de Zabbix, Nagios y Prometheus. & Evaluación cuantitativa de confiabilidad, bajo consumo y soporte SNMPv3/LLD. & Enfoque experimental en nube general, no enfocado en redes de campus. & Sustenta la selección de Zabbix 7.0 LTS y Grafana como núcleo de supervisión de red. \\
+    \hline
+    Obregón Maroto (2022) \cite{obregon2022implementacion} & Prometheus + Grafana + SNMP en campus (EPN). & Demuestra viabilidad económica y técnica en universidades públicas de Ecuador. & Monitoreo SNMP aislado, sin flujos IPFIX ni centralización de registros Syslog. & Provee un referente empírico directo en el ecosistema universitario ecuatoriano. \\
+    \hline
+  \end{tabular}
+  \par\vspace{1.5mm}
+  \elaboradopor{El Investigador}
+  \fuente{Revisión de literatura científica y técnica especializada}
+\end{table}
+
+\subsection{Identificación de la Brecha Tecnológica y Posicionamiento de la Propuesta}
+
+A partir de la revisión sistemática del estado del arte, se identifican cuatro brechas tecnológicas determinantes en el panorama actual:
+\begin{enumerate}
+  \item \textbf{Fragmentación de la telemetría en silos independientes:} La mayoría de los proyectos analizados abordan de manera aislada el sondeo de métricas numéricas de hardware, el perfilado de tráfico o la recolección de eventos. Esta fragmentación obliga a los administradores a consultar múltiples interfaces no correlacionadas, incrementando el Tiempo Medio de Detección (\textit{Mean Time To Detect} -- MTTD) y el Tiempo Medio de Reparación (\textit{Mean Time To Repair} -- MTTR).
+  \item \textbf{Vulnerabilidad en los canales de gestión de red:} Pese a que el estándar SNMPv3 (RFC 3414 \cite{blumenthal2002user}) lleva más de dos décadas formalizado, persiste en las redes universitarias el uso de SNMPv1 y SNMPv2c con cadenas comunitarias en texto claro, exponiendo la información de topología e interfaces a interceptaciones pasivas.
+  \item \textbf{Costo prohibitivo y rigidez de soluciones comerciales:} Suites privativas consolidadas en el mercado corporativo (tales como SolarWinds Network Performance Monitor, PRTG Network Monitor o Cisco Catalyst Center) aplican modelos de licenciamiento comercial tasados por sensor, puerto o nodo, volviéndose económicamente insostenibles para la escala de las universidades locales.
+  \item \textbf{Carencia de protocolos estandarizados de validación experimental:} Gran parte de los trabajos documentados en la literatura académica presentan despliegues descriptivos, careciendo de un protocolo riguroso de inyección premeditada de anomalías en laboratorio que certifique cuantitativamente los tiempos de detección (TTD), tiempos de notificación (TTN) y tasas de falsos positivos tras la calibración de umbrales.
+\end{enumerate}
+
+El presente trabajo de titulación se posiciona estratégicamente para superar estas limitaciones. Se propone una arquitectura unificada de observabilidad sustentada en microservicios contenerizados de código abierto (Zabbix 7.0 LTS, ntopng, concentrador Syslog RFC 5424 y Grafana), implementando un canal seguro de telemetría mediante SNMPv3 bajo el modelo `authPriv` (HMAC-SHA y AES-128), correlación de flujos IPFIX conforme a la RFC 7011, supresión jerárquica de tormentas de alarmas y un protocolo sistemático de validación experimental mediante fallas inducidas en la Universidad Tecnológica Indoamérica.
+
+
+\section{Planteamiento del Problema}
+\textit{[Definir de forma clara y precisa el problema o brecha tecnológica identificada. Describir las causas que lo originan y los efectos que genera en el contexto analizado. No incluir la solución en esta sección.]}
+
+\section{Justificación}
+\textit{[Redactar un texto argumentativo que exponga la importancia del proyecto, su impacto técnico y operativo, la utilidad de la solución, los beneficiarios directos e indirectos y la factibilidad técnica y operativa de su implementación.]}
+
+\section{Objetivos}
+\label{sec:objetivos}
+
+\subsection{Objetivo General}
+Diseñar e implementar una plataforma de monitoreo y observabilidad de la infraestructura y los servicios de red de la Universidad Tecnológica Indoamérica, basada en la recolección de métricas mediante SNMPv3, el análisis de flujos de tráfico y la centralización de registros de eventos, que permita a la institución detectar de forma proactiva las condiciones de falla y degradación del servicio.
+
+\subsection{Objetivos Específicos}
+Para la consecución del objetivo general formulado, se establecen los siguientes objetivos específicos estructurados bajo las fases del ciclo de ingeniería (análisis, diseño, implementación y validación):
+
+\begin{enumerate}
+  \item \textbf{Análisis de Requisitos y Catálogo Operativo:} Identificar y catalogar los activos de red y servicios críticos institucionales (conmutadores de núcleo, distribución, acceso, enrutadores de frontera, cortafuegos perimetrales, controladores Wi-Fi y servicios DNS, DHCP y Web), definiendo la matriz de métricas clave, umbrales operativos admisibles y matriz de escalamiento.
+  \item \textbf{Diseño de Arquitectura y Dimensionamiento:} Diseñar la arquitectura técnica de la plataforma bajo un modelo desacoplado y de alta disponibilidad, contemplando ingestión de SNMPv3, colector de flujos IPFIX/NetFlow, concentrador de logs Syslog conforme a la norma RFC 5424, almacenamiento optimizado para series de tiempo, capa analítica y motor de tableros.
+  \item \textbf{Implementación de la Plataforma sobre Software Libre:} Desplegar la solución sobre un sistema operativo Linux endurecido (\textit{hardened}) mediante una arquitectura de microservicios contenerizados (Docker y Docker Compose), implementando descubrimiento dinámico de red (\textit{Low-Level Discovery} -- LLD), plantillas de supervisión específicas por fabricante/modelo y tableros interactivos orientados al servicio.
+  \item \textbf{Configuración de Alertas, Dependencias y Reportes:} Configurar el motor de alertas con umbrales multinivel (Advertencia, Promedio, Alto, Desastre), árboles de dependencia topológica para supresión de tormentas de alarmas derivadas, detección de oscilación de enlaces (\textit{flapping}), canales de notificación inmediata (Telegram y correo electrónico) y emisión automática de reportes ejecutivos periódicos de disponibilidad y consumo.
+  \item \textbf{Validación Experimental mediante Fallas Inducidas:} Evaluar el desempeño de la plataforma en un banco de pruebas controlado mediante la inyección premeditada de eventos anómalos (caída de enlaces troncales, saturación de ancho de banda, picos de CPU, pérdida de paquetes y caída de servicios esenciales), cuantificando los tiempos de detección (\textit{Time To Detect} -- TTD) y notificación (\textit{Time To Notify} -- TTN).
+\end{enumerate}
+
+\section{Alcance del Proyecto}
+\textit{[Delimitar los límites del proyecto, especificando claramente los componentes, módulos o funcionalidades que se incluyen, así como aquellos que se excluyen.]}
+
+\section{Fundamentación Teórica}
+\textit{[Desarrollar los fundamentos teóricos, conceptos, modelos y tecnologías que sustentan el proyecto. Debe estar relacionado directamente con la solución propuesta y su implementación, aplicable a software, hardware o infraestructura.]}
+
+\subsection{Ejemplo de Figura 1}
+Como ejemplo de referencia dentro del texto: en la Figura~\ref{fig:ejemplo_1} se presenta un recurso visual demostrativo que guía el formato esperado para los gráficos del documento.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.80\textwidth]{Capítulos/fig/fig_ejemplo_1.png}
+  \caption{Ejemplo de figura para guiar el formato de gráficos en el documento.}
+  \label{fig:ejemplo_1}
+\end{figure}
+\elaboradopor{Estudiante}
+\fuente{Elaboración propia}
+
+\subsection{Ejemplo de Tabla 1}
+Como ejemplo de referencia cruzada en párrafo: la Tabla~\ref{tab:ejemplo_1} resume indicadores base que luego pueden compararse con los resultados de implementación.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Ejemplo de tabla para registrar métricas iniciales del diagnóstico.}
+  \label{tab:ejemplo_1}
+  \begin{tabular}{|l|c|c|}
+    \hline
+    Indicador & Valor actual & Meta \\
+    \hline
+    Tiempo de respuesta (ms) & 850 & 400 \\
+    \hline
+    Disponibilidad (\%) & 96.2 & 99.0 \\
+    \hline
+    Incidencias mensuales & 14 & 6 \\
+    \hline
+  \end{tabular}
+\end{table}
+\elaboradopor{Estudiante}
+\fuente{Datos de levantamiento inicial}

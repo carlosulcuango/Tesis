@@ -1,0 +1,19 @@
+# Archivos auxiliares y temporales de LaTeX / XeLaTeX
+*.aux
+*.blg
+*.fdb_latexmk
+*.fls
+*.loa
+*.loe
+*.lof
+*.log
+*.loi
+*.lot
+*.out
+*.toc
+*.synctex.gz
+texput.log
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
