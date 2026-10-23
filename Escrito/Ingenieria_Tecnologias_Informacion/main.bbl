@@ -21,14 +21,19 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{clemm2020service}
-A.~Clemm, M.~Chandramouli, and S.~Krishnamurthy, ``Service-assurance for
-  intent-based networking,'' \emph{IEEE Communications Magazine}, vol.~58,
-  no.~10, pp. 34--40, 2020.
+\bibitem{lopdp2021}
+{Asamblea Nacional del Ecuador}, ``Ley org{\'a}nica de protecci{\'o}n de datos
+  personales,'' Registro Oficial Suplemento 459, May 2021.
 
-\bibitem{song2022network}
-H.~Song, F.~Qin, P.~Martinez-Julia, L.~Ciavaglia, and A.~Wang, ``Network
-  telemetry framework,'' RFC Editor, RFC 9232, May 2022.
+\bibitem{kalman1960general}
+R.~E. Kalman, ``On the general theory of control systems,'' in
+  \emph{Proceedings of the First International Congress of the International
+  Federation of Automatic Control (IFAC)}, Moscow, 1960, pp. 481--492.
+
+\bibitem{majors2022observability}
+C.~Majors, L.~Fong-Jones, and G.~Miranda, \emph{Observability Engineering:
+  Achieving Production Excellence}.\hskip 1em plus 0.5em minus 0.4em\relax
+  Sebastopol, CA, USA: O'Reilly Media, 2022.
 
 \bibitem{hofstede2014flow}
 R.~Hofstede, P.~{\v{C}}eleda, B.~Trammell, I.~Drago, R.~Sadre, A.~Sperotto, and
@@ -53,14 +58,6 @@ R.~I. Espinel-Villalobos, E.~Ardila-Triana, H.~Zarate-Ceballos, and J.~E.
   for campus infrastructure using software agents,'' \emph{Ingenier{\'\i}a e
   Investigaci{\'o}n}, vol.~42, no.~1, p. e87564, 2022.
 
-\bibitem{obregon2022implementacion}
-C.~R. Obreg{\'o}n~Maroto, ``Implementaci{\'o}n de un prototipo de monitoreo de
-  redes, mediante una base de datos y presentaci{\'o}n con plataformas {Open
-  Source} para la {Direcci{\'o}n de Tecnolog{\'\i}as de la Informaci{\'o}n y
-  Comunicaci{\'o}n} de la {Escuela Polit{\'e}cnica Nacional},'' Master's
-  thesis, Facultad de Ingenier{\'\i}a El{\'e}ctrica y Electr{\'o}nica, Escuela
-  Polit{\'e}cnica Nacional, Quito, Ecuador, 2022.
-
 \bibitem{he2016experience}
 S.~He, J.~Zhu, P.~He, and M.~R. Lyu, ``Experience report: System log analysis
   for anomaly detection,'' in \emph{2016 IEEE 27th International Symposium on
@@ -76,15 +73,107 @@ R.~Vaarandi and M.~Pihelgas, ``{LogCluster} - a data clustering and pattern
 \bibitem{gerhards2009syslog}
 R.~Gerhards, ``The {Syslog} protocol,'' RFC Editor, RFC 5424, Mar. 2009.
 
-\bibitem{matos2020dependability}
-R.~Matos, F.~Oliveira, J.~Araujo, and P.~Maciel, ``Dependability and
-  performance evaluation of cloud computing monitoring tools,'' \emph{IEEE
-  Transactions on Cloud Computing}, vol.~10, no.~4, pp. 2379--2392, 2022.
+\bibitem{obregon2026implementacion}
+\BIBentryALTinterwordspacing
+C.~R. Obreg{\'o}n~Maroto, ``Implementaci{\'o}n de un prototipo de monitoreo de
+  redes, mediante una base de datos y presentaci{\'o}n con plataformas {Open
+  Source}: implementaci{\'o}n de un prototipo de monitoreo de tr{\'a}fico en
+  una red local mediante {SNMP}, con almacenamiento en {Prometheus} y
+  visualizaci{\'o}n en {Grafana},'' Trabajo de Integraci{\'o}n Curricular,
+  Escuela Polit{\'e}cnica Nacional, Quito, Ecuador, 2026. [Online]. Available:
+  \url{https://bibdigital.epn.edu.ec/handle/15000/27549}
+\BIBentrySTDinterwordspacing
+
+\bibitem{song2022network}
+H.~Song, F.~Qin, P.~Martinez-Julia, L.~Ciavaglia, and A.~Wang, ``Network
+  telemetry framework,'' RFC Editor, RFC 9232, May 2022.
+
+\bibitem{claise2023sain}
+B.~Claise, J.~Quilbeuf, D.~Lopez, D.~Voyer, and T.~Arumugam, ``Service
+  assurance for intent-based networking architecture,'' RFC Editor, RFC 9417,
+  Jul. 2023.
+
+\bibitem{prometheus2024docs}
+\BIBentryALTinterwordspacing
+{Prometheus Authors}, \emph{Prometheus Documentation: Overview and {SNMP}
+  Exporter}, The Linux Foundation, 2024. [Online]. Available:
+  \url{https://prometheus.io/docs/introduction/overview/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{zabbix2024manual}
+\BIBentryALTinterwordspacing
+{Zabbix SIA}, \emph{Zabbix 7.0 Manual}, Zabbix SIA, Riga, Latvia, 2024.
+  [Online]. Available: \url{https://www.zabbix.com/documentation/7.0/en/manual}
+\BIBentrySTDinterwordspacing
 
 \bibitem{blumenthal2002user}
 U.~Blumenthal and B.~Wijnen, ``User-based security model ({USM}) for version 3
   of the simple network management protocol ({SNMPv3}),'' RFC Editor, RFC 3414,
   Dec. 2002.
+
+\bibitem{beyer2016sre}
+B.~Beyer, C.~Jones, J.~Petoff, and N.~R. Murphy, Eds., \emph{Site Reliability
+  Engineering: How {Google} Runs Production Systems}.\hskip 1em plus 0.5em
+  minus 0.4em\relax Sebastopol, CA, USA: O'Reilly Media, 2016.
+
+\bibitem{kurose2021computer}
+J.~F. Kurose and K.~W. Ross, \emph{Computer Networking: A Top-Down Approach},
+  8th~ed.\hskip 1em plus 0.5em minus 0.4em\relax Hoboken, NJ, USA: Pearson,
+  2021.
+
+\bibitem{stallings1999snmp}
+W.~Stallings, \emph{{SNMP}, {SNMPv2}, {SNMPv3}, and {RMON} 1 and 2},
+  3rd~ed.\hskip 1em plus 0.5em minus 0.4em\relax Reading, MA, USA:
+  Addison-Wesley, 1999.
+
+\bibitem{mccloghrie1991mib2}
+K.~McCloghrie and M.~T. Rose, ``Management information base for network
+  management of {TCP/IP}-based internets: {MIB-II},'' RFC Editor, RFC 1213,
+  Mar. 1991.
+
+\bibitem{mccloghrie2000ifmib}
+K.~McCloghrie and F.~Kastenholz, ``The interfaces group {MIB},'' RFC Editor,
+  RFC 2863, Jun. 2000.
+
+\bibitem{harrington2002architecture}
+D.~Harrington, R.~Presuhn, and B.~Wijnen, ``An architecture for describing
+  simple network management protocol ({SNMP}) management frameworks,'' RFC
+  Editor, RFC 3411, Dec. 2002.
+
+\bibitem{wijnen2002vacm}
+B.~Wijnen, R.~Presuhn, and K.~McCloghrie, ``View-based access control model
+  ({VACM}) for the simple network management protocol ({SNMP}),'' RFC Editor,
+  RFC 3415, Dec. 2002.
+
+\bibitem{merkle2016hmacsha2}
+J.~Merkle and M.~Lochter, ``{HMAC-SHA-2} authentication protocols in user-based
+  security model ({USM}) for {SNMPv3},'' RFC Editor, RFC 7860, Apr. 2016.
+
+\bibitem{blumenthal2004aes}
+U.~Blumenthal, F.~Maino, and K.~McCloghrie, ``The advanced encryption standard
+  ({AES}) cipher algorithm in the {SNMP} user-based security model,'' RFC
+  Editor, RFC 3826, Jun. 2004.
+
+\bibitem{claise2004netflow}
+B.~Claise, ``Cisco systems {NetFlow} services export version 9,'' RFC Editor,
+  RFC 3954, Oct. 2004.
+
+\bibitem{claise2013ipfixim}
+B.~Claise and B.~Trammell, ``Information model for {IP} flow information export
+  ({IPFIX}),'' RFC Editor, RFC 7012, Sep. 2013.
+
+\bibitem{merkel2014docker}
+D.~Merkel, ``Docker: Lightweight {Linux} containers for consistent development
+  and deployment,'' \emph{Linux Journal}, vol. 2014, no. 239, 2014.
+
+\bibitem{teare2007desgn}
+D.~Teare, \emph{Designing for {Cisco} Internetwork Solutions ({DESGN})},
+  2nd~ed.\hskip 1em plus 0.5em minus 0.4em\relax Indianapolis, IN, USA: Cisco
+  Press, 2007.
+
+\bibitem{axelos2019itil}
+{AXELOS}, \emph{{ITIL} Foundation: {ITIL} 4 Edition}.\hskip 1em plus 0.5em
+  minus 0.4em\relax London, UK: TSO (The Stationery Office), 2019.
 
 \bibitem{hevner2004design}
 A.~R. Hevner, S.~T. March, J.~Park, and S.~Ram, ``Design science in information
