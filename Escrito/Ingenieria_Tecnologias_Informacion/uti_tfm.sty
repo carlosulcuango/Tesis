@@ -1,17 +1,16 @@
 % uti_tfm.sty — Estilo aproximado a la maquetación del PDF de referencia (UTI / Maestría Big Data)
 % Compilación recomendada: XeLaTeX o LuaLaTeX (para Century Gothic real).
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{uti_tfm}[2026/01/28 UTI TFM style]
+\ProvidesPackage{uti_tfm}[2026/10/23 UTI TFM style]
 
-% --- Motor y tipografías (Century Gothic) ---
+% --- Motor y tipografías (Century Gothic en todo el documento) ---
 \RequirePackage{iftex}
 \ifPDFTeX
   % Fallback para pdfLaTeX: TeX Gyre Adventor (similar a Century Gothic)
+  \RequirePackage{newtxmath} % matemática legible en modo pdfLaTeX
   \RequirePackage{tgadventor}
   \renewcommand{\familydefault}{\sfdefault}
-  \RequirePackage{newtxtext} % Times New Roman aproximada para la portada
-  \RequirePackage{newtxmath} % matemática legible en modo pdfLaTeX
-  \newcommand{\UTIPortadaFuente}{\rmfamily}
+  \newcommand{\UTIPortadaFuente}{\sffamily}
 \else
   \RequirePackage{fontspec}
   \defaultfontfeatures{Ligatures=TeX}
@@ -22,11 +21,7 @@
     \setmainfont{TeX Gyre Adventor}%
     \setsansfont{TeX Gyre Adventor}%
   }
-  \IfFontExistsTF{Times New Roman}{%
-    \newfontfamily\UTIPortadaFuente{Times New Roman}%
-  }{%
-    \newfontfamily\UTIPortadaFuente{TeX Gyre Termes}%
-  }
+  \newcommand{\UTIPortadaFuente}{\rmfamily}
   % Matemática (no existe “Century Gothic Math”): usa una fuente matemática estándar
   \RequirePackage{unicode-math}
   \setmathfont{TeX Gyre Termes Math}
